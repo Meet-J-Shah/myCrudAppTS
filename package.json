@@ -4,7 +4,13 @@
   "description": "simple crud app in node in typescript language for understanding coding standard of tatvasoft",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server.ts",
+    "dev": "nodemon ./src/server.ts",
+    "build": "tsc --project tsconfig.json",
+    "prod":"node ./dist/server.js",
+    "lint": "eslint src/**/*.ts",
+    "format": "eslint src/**/*.ts --fix"
   },
   "keywords": [],
   "author": "Meet Shah",
