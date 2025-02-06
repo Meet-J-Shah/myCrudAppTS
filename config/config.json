@@ -2,9 +2,10 @@
     "development": {
       "username": "root",
       "password": "",
-      "database": "dev_example_ts",
+      "database": "my_crud_ts",
       "host": "localhost",
       "dialect": "mysql"
+      
     },
     "test": {
       "username": "root",

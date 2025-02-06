@@ -34,5 +34,10 @@ User.init(
     modelName: 'User',
   },
 );
-
+// if(User === sequelize.models.User)
+// {
+//     console.log("User model");
+// }else{
+//     console.log("error");
+// }
 export default User;

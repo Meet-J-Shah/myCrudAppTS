@@ -10,7 +10,9 @@
     "build": "tsc --project tsconfig.json",
     "prod":"node ./dist/server.js",
     "lint": "eslint src/**/*.ts",
-    "format": "eslint src/**/*.ts --fix"
+    "format": "eslint src/**/*.ts --fix",
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "Meet Shah",
