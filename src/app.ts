@@ -1,8 +1,8 @@
 import express, { Express, Request, Response, Application } from 'express';
-
+import * as CONSTANTS from './constants/constant';
 import * as dotenv from 'dotenv';
 //import routes from './routes';
-//import * as db from './models';
+import * as db from './models';
 //import { errors } from 'celebrate';
 import environmentConfig from './constants/environment.constant';
 //import helmet from 'helmet';
@@ -37,7 +37,10 @@ export class App {
     // this.app.use(errors());
   }
   public async listen() {
-    //await db.sequelize.sync({ force: false });
+    await db.sequelize.authenticate();
+    //console.log(CONSTANTS.LOG_MESSAGES.DB_CONNECTION);
+    console.log("Database connected");
+    await db.sequelize.sync({ force: false });
     this.app.listen(environmentConfig.PORT, () => {
       console.log(`Server running on ${environmentConfig.PORT}`);
     });
