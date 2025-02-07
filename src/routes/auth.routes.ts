@@ -5,7 +5,7 @@ const router = Router({ mergeParams: true });
 import authSchema from '../validation/auth.validate';
 
 import { celebrate } from 'celebrate';
-//console.log(AuthService);
+
 
 router.post('/login', celebrate(authSchema.SigninSchema), AuthService.login);
 router.post('/register', celebrate(authSchema.SignupSchema), AuthService.register);

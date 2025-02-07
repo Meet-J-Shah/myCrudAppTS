@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, Application } from 'express';
+import express, { Express, Request, Response, Application, NextFunction } from 'express';
 import * as CONSTANTS from './constants/constant';
 import * as dotenv from 'dotenv';
 import routes from './routes';
@@ -9,7 +9,8 @@ import { errors } from 'celebrate';
 import environmentConfig from './constants/environment.constant';
 import helmet from 'helmet';
 import morgan from 'morgan';
-
+import errorCatcher from './utils/error.catcher';
+import { BaseError } from './utils/error.handler';
 //import ExpressMongoSanitize from 'express-mongo-sanitize';
 // import { default as swaggerDocument } from './swagger/swagger.json';
 // import swaggerUi from 'swagger-ui-express';
@@ -37,7 +38,28 @@ export class App {
     });
     // this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     this.app.use(routes);
-    this.app.use(errors());
+    this.app.use(errorCatcher);
+// /* eslint-disable no-unused-vars */
+//     this.app.use((err:unknown, req:Request, res:Response, next:NextFunction) => {
+//   // ✅ Add next parameter
+//   console.log(err.stack);
+
+//   // Check if the error is an instance of BaseError (custom error)
+//   /* eslint-disable no-undef */
+//   if (err instanceof BaseError) {
+//     return res.status(err.code || CONSTANTS.default.RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({
+//       error: err.name,
+//       message: err.message,
+//       data: err.data,
+//     });
+//   }
+//   /* eslint-enable no-undef */
+
+//   // Default response for unhandled errors
+//   return res.status(CONSTANTS.default.RESPONSE_CODES.INTERNAL_SERVER_ERROR).send(CONSTANTS.default.ERROR_MESSAGES.DEFAULT_ERROR);
+//     });
+
+    //this.app.use(errors());
   }
   public async listen() {
     //console.log(db);
