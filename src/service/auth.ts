@@ -25,7 +25,10 @@ export class AuthService {
 
       const users = await User.findOne({ where: { email: email } });
       if (!users) {
-        throw new NotFoundError(404, "Not Found");
+        throw new NotFoundError(
+          CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
+          CONSTANTS.ERROR_MESSAGES.USER_ERRORS.NOT_FOUND
+        );
       } else {
         const passwordMatched = bcrypt.compareSync(password, users.password);
         if (!passwordMatched) {
@@ -45,7 +48,14 @@ export class AuthService {
           };
           res
             .status(200)
-            .json(new SuccessResponse(true, "Signin successfully", 200, data));
+            .json(
+              new SuccessResponse(
+                true,
+                CONSTANTS.RESPONSE_MESSAGES.USER_RESPONSES.SIGN_SUCESS,
+                CONSTANTS.RESPONSE_CODES.SUCCESS,
+                data
+              )
+            );
           // res.status(200).json(new SuccessResponse(true, 'Signin successfully', 200, data));
           return;
         }
@@ -85,7 +95,11 @@ export class AuthService {
           res
             .status(200)
             .json(
-              new SuccessResponse(true, "New user registered successfully", 200)
+              new SuccessResponse(
+                true,
+                CONSTANTS.RESPONSE_MESSAGES.USER_RESPONSES.REGISTER_SUCESS,
+                CONSTANTS.RESPONSE_CODES.SUCCESS
+              )
             );
           return;
         }
