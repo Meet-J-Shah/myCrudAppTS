@@ -1,43 +1,43 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 import { sequelize } from '.';
-import { UserInstance, UserCreationAttributes } from '../interface';
-class User extends Model <UserInstance, UserCreationAttributes> implements UserInstance {
-  id!: number;
-  email!: string;
-  password!: string; 
-  role!: string;
+
+class User extends Model {
+  public id!: number;
+  public email!: string;
+  public password!: string;
+  public role!: 'user' | 'admin';
+
+  static initModel(sequelize: Sequelize) {
+    User.init(
+      {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: DataTypes.INTEGER,
+          unique: true,
+        },
+        email: {
+          allowNull: false,
+          unique: true,
+          type: DataTypes.STRING,
+        },
+        password: {
+          allowNull: false,
+          type: DataTypes.STRING,
+        },
+        role: {
+          type: DataTypes.ENUM('user', 'admin'),
+          defaultValue: 'user',
+        },
+      },
+      {
+        sequelize,
+        modelName: 'User',
+        timestamps: true, // Automatically adds createdAt & updatedAt
+      },
+    );
+  }
 }
-User.init(
-  {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER,
-      unique: true,
-    },
-    email: {
-      allowNull: false,
-      type: DataTypes.TEXT,
-    },
-    password: {
-      allowNull: false,
-      type: DataTypes.TEXT,
-    },
-    role: {
-      type: DataTypes.ENUM('user', 'admin'),
-      defaultValue: 'user',
-    },
-  },
-  {
-    sequelize,
-    modelName: 'User',
-  },
-);
-// if(User === sequelize.models.User)
-// {
-//     console.log("User model");
-// }else{
-//     console.log("error");
-// }
+
 export default User;
