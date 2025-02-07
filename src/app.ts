@@ -1,51 +1,35 @@
-import express, { Express, Request, Response, Application } from 'express';
-import * as CONSTANTS from './constants/constant';
+import express, { Application } from 'express';
 import * as dotenv from 'dotenv';
-//import routes from './routes';
 import * as db from './models';
-
-//import { errors } from 'celebrate';
 import environmentConfig from './constants/environment.constant';
-//import helmet from 'helmet';
-//import morgan from 'morgan';
-//import ExpressMongoSanitize from 'express-mongo-sanitize';
-// import { default as swaggerDocument } from './swagger/swagger.json';
-// import swaggerUi from 'swagger-ui-express';
-// import throttle from 'express-throttle';
-
-
-
 
 dotenv.config();
-console.log(environmentConfig.PORT);
+console.log(`🌍 Environment: ${environmentConfig.NODE_ENV}`);
+console.log(`🚀 Server starting on port: ${environmentConfig.PORT}`);
+
 export class App {
   private app: Application = express();
 
   constructor() {
-    // this.app.use(helmet());
-    // this.app.use(ExpressMongoSanitize());
-     // this.app.use(morgan('tiny'));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    // this.app.use((request, response, next) => {
-    //   response.header('Access-Control-Allow-Origin', '*');
-    //   response.header('Access-Control-Allow-Headers', '*');
-    //   response.header('Access-Control-Allow-Methods', '*');
-    //   next();
-    // });
-    // this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-    // this.app.use(routes);
-    // this.app.use(errors());
   }
+
   public async listen() {
-    console.log(db);
-    await db.sequelize.authenticate();
-    //console.log(CONSTANTS.LOG_MESSAGES.DB_CONNECTION);
-    console.log("Database connected");
-    await db.sequelize.sync();
-    this.app.listen(environmentConfig.PORT, () => {
-      console.log(`Server running on ${environmentConfig.PORT}`);
-    });
-    return this.app;
+    try {
+      console.log("🔄 Connecting to database...");
+      await db.sequelize.authenticate();
+      console.log("✅ Database connected");
+
+      console.log("🔄 Syncing database...");
+      await db.sequelize.sync({ alter: true }); // Update schema if needed
+      console.log("✅ Database synced");
+
+      this.app.listen(environmentConfig.PORT, () => {
+        console.log(`🚀 Server running on port ${environmentConfig.PORT}`);
+      });
+    } catch (error) {
+      console.error("❌ Error initializing application:", error);
+    }
   }
 }
