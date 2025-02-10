@@ -13,7 +13,11 @@ import {
 import { SuccessResponse } from "../utils/successResponse.handler";
 
 export class AuthService {
-  public static async login(req: Request, res: Response, next: NextFunction) {
+  public static async login(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
@@ -69,7 +73,7 @@ export class AuthService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const { email, password, role } = req.body;
 

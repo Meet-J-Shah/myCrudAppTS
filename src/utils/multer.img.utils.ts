@@ -11,7 +11,7 @@ export class MulterImg {
         cb(null, "uploads");
       },
       filename: function (req, file, cb) {
-        const fileName = file.originalname.substr(
+        const fileName: string = file.originalname.substr(
           0,
           file.originalname.lastIndexOf(".")
         );
@@ -19,7 +19,7 @@ export class MulterImg {
       },
     });
     //500 KB
-    const maxSize = 500 * 1024;
+    const maxSize: number = 500 * 1024;
 
     const upload = multer({
       storage: storage,

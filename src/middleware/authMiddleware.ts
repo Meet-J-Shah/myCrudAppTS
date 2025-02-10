@@ -13,7 +13,7 @@ export const verifyUser = async (
   req: MyUserRequest,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const { authorization } = req.headers as any;
     if (!authorization) {

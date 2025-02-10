@@ -37,7 +37,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const filePath = path.resolve("public", "mj.txt");
       const data = await fs.promises.readFile(filePath, { encoding: "utf8" });
@@ -55,7 +55,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const myText = "Hi!\r\n";
       fs.writeFileSync("./foo.txt", myText);
@@ -69,7 +69,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const content = "Some content!";
       await fs2.writeFile("test.txt", content);
@@ -83,7 +83,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const filePath = path.resolve("public", "mj.txt");
       const content = "Some content!";
@@ -100,7 +100,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       await fs2.unlink("foo.txt");
       res.send(`File Deleted sucessfully..`);
@@ -113,7 +113,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const content = "File Uploading via xlsx!";
       console.log(content);
@@ -140,7 +140,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const content = "Images are uploading !";
       console.log(content);
@@ -161,7 +161,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const content = "Some content!";
     } catch (error: any) {
@@ -173,7 +173,7 @@ export class FileService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const content = "Some content!";
     } catch (error: any) {

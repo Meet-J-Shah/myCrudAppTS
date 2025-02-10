@@ -10,7 +10,7 @@ export class UserService {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<void> {
     try {
       const users = await User.findAll({
         where: { role: "user" },
@@ -40,7 +40,7 @@ export class UserService {
     }
   }
 
-  static async createUser(userData: any) {
+  static async createUser(userData: any): Promise<User> {
     try {
       // Create a new user in the database
       userData.password = await bcrypt.hashSync(userData.password, 12);
@@ -65,7 +65,7 @@ export class UserService {
   }
 
   // Get a user by id
-  static async getUserById(userId: number) {
+  static async getUserById(userId: number): Promise<User> {
     try {
       // Find a user by primary key (id)
       const user = await User.findByPk(userId);
@@ -84,7 +84,7 @@ export class UserService {
   // Update a user by id
 
   // security ::- change type any from another create respective object for it..
-  static async updateUser(userId: number, updatedData: any) {
+  static async updateUser(userId: number, updatedData: any): Promise<User> {
     try {
       // Find user by id
       const user = await User.findByPk(userId);
@@ -105,7 +105,7 @@ export class UserService {
   }
 
   // Delete a user by id
-  static async deleteUser(userId: number) {
+  static async deleteUser(userId: number): Promise<void> {
     try {
       // Find the user
       const user = await User.findByPk(userId);
