@@ -18,6 +18,7 @@ export class Multer {
         cb(null, fileName + "-" + Date.now() + path.extname(file.originalname));
       },
     });
+    //10 MB
     const maxSize = 10 * 1024 * 1024;
 
     const upload = multer({

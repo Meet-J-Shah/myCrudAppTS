@@ -14,6 +14,7 @@ import {
 import { SuccessResponse } from "../utils/successResponse.handler";
 import fs from "node:fs";
 import fs2 from "node:fs/promises";
+import { Multer } from "../utils/multer.utils";
 export class FileService {
   public static async fileSyncRead(
     req: Request,
@@ -108,7 +109,34 @@ export class FileService {
       return;
     }
   }
-  public static async fileUpload111(
+  public static async fileUploadxlxs(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const content = "File Uploading via xlsx!";
+      console.log(content);
+      if (!req.file) {
+        res.status(400).json({ message: "No file uploaded" });
+        return;
+      }
+
+      // Access uploaded file information
+      const fileName = req.file.filename;
+      const filePath = `uploads/${fileName}`;
+
+      // Process the uploaded file (e.g., read, parse, etc.)
+      // ...
+
+      res.status(200).json({ message: "File uploaded successfully", fileName });
+      return;
+    } catch (error: any) {
+      next(error);
+      return;
+    }
+  }
+  public static async fileUploadimg(
     req: Request,
     res: Response,
     next: NextFunction
@@ -120,7 +148,7 @@ export class FileService {
       return;
     }
   }
-  public static async fileUpload11(
+  public static async fileUploadtext(
     req: Request,
     res: Response,
     next: NextFunction
@@ -132,7 +160,7 @@ export class FileService {
       return;
     }
   }
-  public static async fileUpload1(
+  public static async fileUpload(
     req: Request,
     res: Response,
     next: NextFunction
