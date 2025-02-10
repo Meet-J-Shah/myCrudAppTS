@@ -10,4 +10,6 @@ router.get("/writeAsyncFile", FileService.fileAsyncWrite);
 router.get("/appendAsyncFile", FileService.fileAppend);
 router.get("/deleteAsyncFile", FileService.fileDelete);
 
+router.post("/uploadXlsxFile");
+
 export default router;
