@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { FileService } from "../service/file.service";
 import { Multer } from "../utils/multer.utils";
+import { MulterImg } from "../utils/multer.img.utils";
 //import { UserListRepository } from '../repositories';
 const router = Router({ mergeParams: true });
 
@@ -13,8 +14,7 @@ router.get("/deleteAsyncFile", FileService.fileDelete);
 
 router.post("/uploadXlsxFile", Multer.multer(), FileService.fileUploadxlxs);
 
-router.post("/uploadXlsxFile", FileService.fileUploadimg);
+router.post("/uploadImages", MulterImg.multer(), FileService.fileUploadimg);
 router.post("/uploadXlsxFile", FileService.fileUploadtext);
-router.post("/uploadXlsxFile", FileService.fileUpload);
 
 export default router;

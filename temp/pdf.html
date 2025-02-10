@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Example</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container mx-auto p-8">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold mb-2">Invoice #1234</h1>
+      <p>Date: 2024-03-12</p>
+    </div>
+
+    <section class="mb-8">
+      <h2 class="font-bold text-xl mb-3">From:</h2>
+      <p>Your Company Name</p>
+      <p>123 Your Street, Your City, Your Country</p>
+      <p>Email: your-email@company.com</p>
+      <p>Phone: (123) 456-7890</p>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="font-bold text-xl mb-3">To:</h2>
+      <p>Client's Name</p>
+      <p>Client's Company Name</p>
+      <p>456 Client's Street, Client's City, Client's Country</p>
+      <p>Email: client-email@company.com</p>
+      <p>Phone: (098) 765-4321</p>
+    </section>
+
+    <table class="w-full mb-8">
+      <thead>
+        <tr>
+          <th class="border-b-2 border-gray-300 p-2 text-left">Description</th>
+          <th class="border-b-2 border-gray-300 p-2 text-left">Quantity</th>
+          <th class="border-b-2 border-gray-300 p-2 text-left">Unit Price</th>
+          <th class="border-b-2 border-gray-300 p-2 text-left">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="p-2">Service or Product Name 1</td>
+          <td class="p-2">2</td>
+          <td class="p-2">$500.00</td>
+          <td class="p-2">$1,000.00</td>
+        </tr>
+        <!-- Add more items as needed -->
+        <tr>
+          <td class="p-2">Service or Product Name 2</td>
+          <td class="p-2">1</td>
+          <td class="p-2">$300.00</td>
+          <td class="p-2">$300.00</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3" class="text-right p-2">Total:</th>
+          <th class="p-2">$1,300.00</th>
+        </tr>
+      </tfoot>
+    </table>
+
+    <footer class="text-center">
+      <p>Thank you for your business!</p>
+    </footer>
+  </div>
+</body>
+
+</html>

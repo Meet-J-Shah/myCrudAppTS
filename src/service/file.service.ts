@@ -142,7 +142,16 @@ export class FileService {
     next: NextFunction
   ) {
     try {
-      const content = "Some content!";
+      const content = "Images are uploading !";
+      console.log(content);
+
+      // Access uploaded file information
+
+      // Process the uploaded file (e.g., read, parse, etc.)
+      // ...
+
+      res.status(200).json({ message: "Images uploaded successfully" });
+      return;
     } catch (error: any) {
       next(error);
       return;
