@@ -1,4 +1,9 @@
-import { Router, Request, Response, NextFunction } from "express";
+import {
+  // Router,
+  Request,
+  Response,
+  NextFunction,
+} from "express";
 import User from "../models/user.model";
 import environmentConfig from "../constants/environment.constant";
 import * as bcrypt from "bcrypt";
@@ -64,6 +69,7 @@ export class AuthService {
           return;
         }
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -108,6 +114,7 @@ export class AuthService {
           return;
         }
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;

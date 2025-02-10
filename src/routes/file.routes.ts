@@ -1,4 +1,7 @@
-import { Router, Request, Response, NextFunction } from "express";
+import {
+  Router,
+  // Request, Response, NextFunction
+} from "express";
 import { FileService } from "../service/file.service";
 import { Multer } from "../utils/multer.utils";
 import { MulterImg } from "../utils/multer.img.utils";

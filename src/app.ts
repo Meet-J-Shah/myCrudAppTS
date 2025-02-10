@@ -1,22 +1,22 @@
 import express, {
-  Express,
-  Request,
-  Response,
+  //Express,
+  // Request,
+  //Response,
   Application,
-  NextFunction,
+  //NextFunction,
 } from "express";
-import * as CONSTANTS from "./constants/constant";
+//import * as CONSTANTS from "./constants/constant";
 import * as dotenv from "dotenv";
 import routes from "./routes";
 import * as db from "./models";
 //import * as db2 from './models/user.model'
 
-import { errors } from "celebrate";
+//import { errors } from "celebrate";
 import environmentConfig from "./constants/environment.constant";
 import helmet from "helmet";
 import morgan from "morgan";
 import errorCatcher from "./utils/error.catcher";
-import { BaseError } from "./utils/error.handler";
+//import { BaseError } from "./utils/error.handler";
 //import ExpressMongoSanitize from 'express-mongo-sanitize';
 // import { default as swaggerDocument } from './swagger/swagger.json';
 // import swaggerUi from 'swagger-ui-express';

@@ -1,10 +1,13 @@
-import { Router, Request, Response } from "express";
+import {
+  Router,
+  // Request, Response
+} from "express";
 //import { UserListRepository } from '../repositories';
 const router = Router({ mergeParams: true });
 import { verifyUser } from "../middleware/authMiddleware";
 import { verifyAdmin } from "../middleware/authMiddleware";
 import authSchema from "../validation/auth.validate";
-import { UserService } from "../service";
+// import { UserService } from "../service";
 import { celebrate } from "celebrate";
 import UserController from "../controllers/users.controller";
 router.get("/users", verifyUser, verifyAdmin, UserController.getUserList);

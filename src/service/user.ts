@@ -1,9 +1,10 @@
-import { Router, Request, Response, NextFunction } from "express";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
 import { NotFoundError } from "../utils/error.handler";
 import { SuccessResponse } from "../utils/successResponse.handler";
 import CONSTANTS from "../constants/constant";
-import { Json } from "sequelize/types/utils";
+//import { Json } from "sequelize/types/utils";
 import * as bcrypt from "bcrypt";
 export class UserService {
   public static async getUserList(
@@ -34,12 +35,13 @@ export class UserService {
           );
         return;
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
     }
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static async createUser(userData: any): Promise<User> {
     try {
       // Create a new user in the database
@@ -84,6 +86,7 @@ export class UserService {
   // Update a user by id
 
   // security ::- change type any from another create respective object for it..
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static async updateUser(userId: number, updatedData: any): Promise<User> {
     try {
       // Find user by id

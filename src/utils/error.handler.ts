@@ -2,7 +2,8 @@
  * Base Error Class
  */
 export class BaseError extends Error {
-  public data: object | any| undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public data: object | any | undefined;
 
   public code: number | undefined;
 

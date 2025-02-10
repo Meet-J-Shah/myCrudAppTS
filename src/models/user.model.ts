@@ -1,10 +1,17 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '.';
-import { UserInstance, UserCreationAttributes } from '../interface';
-class User extends Model <UserInstance, UserCreationAttributes> implements UserInstance {
+import {
+  DataTypes,
+  Model,
+  // Optional
+} from "sequelize";
+import { sequelize } from ".";
+import { UserInstance, UserCreationAttributes } from "../interface";
+class User
+  extends Model<UserInstance, UserCreationAttributes>
+  implements UserInstance
+{
   id!: number;
   email!: string;
-  password!: string; 
+  password!: string;
   role!: string;
 }
 User.init(
@@ -25,17 +32,15 @@ User.init(
       type: DataTypes.TEXT,
     },
     role: {
-      type: DataTypes.ENUM('user', 'admin'),
-      defaultValue: 'user',
+      type: DataTypes.ENUM("user", "admin"),
+      defaultValue: "user",
     },
   },
   {
     sequelize,
-    modelName: 'User',
-  },
+    modelName: "User",
+  }
 );
-
-
 
 // if(User === sequelize.models.User)
 // {

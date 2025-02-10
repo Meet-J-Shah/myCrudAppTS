@@ -1,8 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import {
+  //Request,
+  Response,
+  NextFunction,
+} from "express";
 import environmentConfig from "../constants/environment.constant";
 import User from "../models/user.model";
 import { MyUserRequest } from "../interface";
-import jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 import { AuthFailureError } from "../utils/error.handler";
 import CONSTANTS from "../constants/constant";
 export const verifyToken = () => {
@@ -15,6 +19,7 @@ export const verifyUser = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { authorization } = req.headers as any;
     if (!authorization) {
       throw new AuthFailureError(
@@ -35,6 +40,7 @@ export const verifyUser = async (
     jwt.verify(
       token,
       environmentConfig.JWT_SECRET,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       async (err: any, payload: any) => {
         if (err) {
           throw new AuthFailureError(

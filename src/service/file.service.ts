@@ -1,20 +1,25 @@
-import { Router, Request, Response, NextFunction } from "express";
-import User from "../models/user.model";
-import environmentConfig from "../constants/environment.constant";
-import * as bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import path from "node:path";
-import CONSTANTS from "../constants/constant";
 import {
-  AuthFailureError,
-  NotFoundError,
-  BadRequestError,
-  InternalError,
-} from "../utils/error.handler";
-import { SuccessResponse } from "../utils/successResponse.handler";
+  //Router,
+  Request,
+  Response,
+  NextFunction,
+} from "express";
+//import User from "../models/user.model";
+//import environmentConfig from "../constants/environment.constant";
+//import * as bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
+import path from "node:path";
+// import CONSTANTS from "../constants/constant";
+// import {
+//   AuthFailureError,
+//   NotFoundError,
+//   BadRequestError,
+//   InternalError,
+// } from "../utils/error.handler";
+// import { SuccessResponse } from "../utils/successResponse.handler";
 import fs from "node:fs";
 import fs2 from "node:fs/promises";
-import { Multer } from "../utils/multer.utils";
+// import { Multer } from "../utils/multer.utils";
 export class FileService {
   public static async fileSyncRead(
     req: Request,
@@ -28,6 +33,7 @@ export class FileService {
       console.log(data);
       console.log("After file  log");
       res.send(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -46,6 +52,7 @@ export class FileService {
       //console.log(data);
 
       res.send(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -60,6 +67,7 @@ export class FileService {
       const myText = "Hi!\r\n";
       fs.writeFileSync("./foo.txt", myText);
       res.send("File written sucessfully..");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -74,6 +82,7 @@ export class FileService {
       const content = "Some content!";
       await fs2.writeFile("test.txt", content);
       res.send("File written Asyncronuslly sucessfully..");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -91,6 +100,7 @@ export class FileService {
       res.send(
         `File Apended with content:- ${content} in a file ${filePath} sucessfully..`
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -104,6 +114,7 @@ export class FileService {
     try {
       await fs2.unlink("foo.txt");
       res.send(`File Deleted sucessfully..`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -124,13 +135,14 @@ export class FileService {
 
       // Access uploaded file information
       const fileName = req.file.filename;
-      const filePath = `uploads/${fileName}`;
+      //const filePath = `uploads/${fileName}`;
 
       // Process the uploaded file (e.g., read, parse, etc.)
       // ...
 
       res.status(200).json({ message: "File uploaded successfully", fileName });
       return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -152,6 +164,7 @@ export class FileService {
 
       res.status(200).json({ message: "Images uploaded successfully" });
       return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -163,7 +176,8 @@ export class FileService {
     next: NextFunction
   ): Promise<void> {
     try {
-      const content = "Some content!";
+      //const content = "Some content!";
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;
@@ -175,7 +189,8 @@ export class FileService {
     next: NextFunction
   ): Promise<void> {
     try {
-      const content = "Some content!";
+      //const content = "Some content!";
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);
       return;

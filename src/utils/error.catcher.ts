@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { isCelebrateError } from "celebrate";
 import CONSTANTS from "../constants/constant";
 import { BaseError } from "../utils";
-import { promises } from "dns";
+//import { promises } from "dns";
 
 interface ErrorHandler {
   (error: unknown, req: Request, res: Response, next: NextFunction): void;
@@ -11,8 +11,9 @@ interface ErrorHandler {
 const errorCatcher: ErrorHandler = (
   err,
   req,
-  res,
-  next
+  res
+  // next
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Response<any, Record<string, any>> => {
   console.log((err as Error).stack);
 
