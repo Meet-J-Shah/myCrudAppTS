@@ -4,8 +4,13 @@ import { NotFoundError } from "../utils/error.handler";
 import { SuccessResponse } from "../utils/successResponse.handler";
 import CONSTANTS from "../constants/constant";
 import { Json } from "sequelize/types/utils";
+import * as bcrypt from "bcrypt";
 export class UserService {
-  public static async getUserList(req: Request, res: Response) {
+  public static async getUserList(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const users = await User.findAll({
         where: { role: "user" },
@@ -17,8 +22,8 @@ export class UserService {
           CONSTANTS.ERROR_MESSAGES.USER_ERRORS.NOT_FOUND_LIST
         );
       } else {
-        return res
-          .status(200)
+        res
+          .status(CONSTANTS.RESPONSE_CODES.SUCCESS)
           .json(
             new SuccessResponse(
               true,
@@ -27,25 +32,29 @@ export class UserService {
               users
             )
           );
+        return;
       }
     } catch (error: any) {
-      return error;
+      next(error);
+      return;
     }
   }
 
-  // static async createUser(userData) {
-  //   try {
-  //     // Create a new user in the database
-  //     const user = await User.create(userData);
-  //     return user;
-  //   } catch (error) {
-  //     throw new Error('Error creating user');
-  //   }
-  // }
+  static async createUser(userData: any) {
+    try {
+      // Create a new user in the database
+      userData.password = await bcrypt.hashSync(userData.password, 12);
+
+      const user = await User.create(userData);
+      return user;
+    } catch (error) {
+      throw new Error("Error creating user");
+    }
+  }
 
   // Get all users
 
-  static async getUserListByAdmin() {
+  static async getUserListByAdmin(): Promise<User[]> {
     try {
       // Get all users
       const users = await User.findAll();
@@ -86,6 +95,8 @@ export class UserService {
         );
       }
       // Update the user data
+      updatedData.password = await bcrypt.hashSync(updatedData.password, 12);
+
       await user.update(updatedData);
       return user;
     } catch (error) {

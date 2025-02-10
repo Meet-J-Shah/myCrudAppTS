@@ -14,46 +14,51 @@ export const verifyUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { authorization } = req.headers as any;
-  if (!authorization) {
-    throw new AuthFailureError(
-      CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
-      CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.MISSING_TOKEN
-    );
-  }
-
-  const scheme = authorization.split(" ")[0];
-  if (scheme !== "Bearer") {
-    throw new AuthFailureError(
-      CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
-      CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.NOT_BEARER
-    );
-  }
-  const token = authorization.split(" ")[1];
-  console.log("Token:", token);
-  jwt.verify(
-    token,
-    environmentConfig.JWT_SECRET,
-    async (err: any, payload: any) => {
-      if (err) {
-        throw new AuthFailureError(
-          CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
-          CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.INVALID_TOKEN
-        );
-      }
-      const { id } = payload;
-      const user = await User.findOne({ where: { id } });
-      if (user) {
-        req.user = user;
-        next();
-      } else {
-        throw new AuthFailureError(
-          CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
-          CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.USER_NOT_FOUND
-        );
-      }
+  try {
+    const { authorization } = req.headers as any;
+    if (!authorization) {
+      throw new AuthFailureError(
+        CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
+        CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.MISSING_TOKEN
+      );
     }
-  );
+
+    const scheme = authorization.split(" ")[0];
+    if (scheme !== "Bearer") {
+      throw new AuthFailureError(
+        CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
+        CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.NOT_BEARER
+      );
+    }
+    const token = authorization.split(" ")[1];
+    console.log("Token:", token);
+    jwt.verify(
+      token,
+      environmentConfig.JWT_SECRET,
+      async (err: any, payload: any) => {
+        if (err) {
+          throw new AuthFailureError(
+            CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
+            CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.INVALID_TOKEN
+          );
+        }
+        const { id } = payload;
+        const user = await User.findOne({ where: { id } });
+        if (user) {
+          req.user = user;
+          next();
+        } else {
+          throw new AuthFailureError(
+            CONSTANTS.RESPONSE_CODES.UNAUTHORIZED,
+            CONSTANTS.ERROR_MESSAGES.TOKEN_ERRORS.USER_NOT_FOUND
+          );
+        }
+      }
+    );
+  } catch (error) {
+    console.log("Error:", error); // Log the error for debugging
+    next(error); // Pass the error to global error handler
+  }
 };
 
 export const verifyAdmin = async (

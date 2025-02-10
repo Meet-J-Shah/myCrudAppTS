@@ -15,6 +15,6 @@ router.get("/deleteAsyncFile", FileService.fileDelete);
 router.post("/uploadXlsxFile", Multer.multer(), FileService.fileUploadxlxs);
 
 router.post("/uploadImages", MulterImg.multer(), FileService.fileUploadimg);
-router.post("/uploadXlsxFile", FileService.fileUploadtext);
+//router.post("/uploadXlsxFile", FileService.fileUploadtext);
 
 export default router;

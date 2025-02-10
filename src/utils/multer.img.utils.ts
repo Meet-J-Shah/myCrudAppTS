@@ -18,8 +18,8 @@ export class MulterImg {
         cb(null, fileName + "-" + Date.now() + path.extname(file.originalname));
       },
     });
-    //50 KB
-    const maxSize = 50 * 1024;
+    //500 KB
+    const maxSize = 500 * 1024;
 
     const upload = multer({
       storage: storage,
