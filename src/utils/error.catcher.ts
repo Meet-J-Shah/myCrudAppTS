@@ -2,19 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { isCelebrateError } from "celebrate";
 import CONSTANTS from "../constants/constant";
 import { BaseError } from "../utils";
-//import { promises } from "dns";
 
 interface ErrorHandler {
   (error: unknown, req: Request, res: Response, next: NextFunction): void;
 }
 
-const errorCatcher: ErrorHandler = (
-  err,
-  req,
-  res
-  // next
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Response<any, Record<string, any>> => {
+const errorCatcher: ErrorHandler = (err, req, res, next) => {
   console.log((err as Error).stack);
 
   if (isCelebrateError(err)) {
