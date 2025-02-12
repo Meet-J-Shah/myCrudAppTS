@@ -25,6 +25,9 @@ import errorCatcher from "./utils/error.catcher";
 dotenv.config();
 //console.log(environmentConfig.PORT);
 export class App {
+  // getApp(): App {
+  //   throw new Error("Method not implemented.");
+  // }
   private app: Application = express();
 
   constructor() {
