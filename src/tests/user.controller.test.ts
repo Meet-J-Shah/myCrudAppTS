@@ -1,92 +1,158 @@
-import request from "supertest";
-import app from "../app"; // Assuming your Express app is exported from app.ts
-import UserService from "../service/user.service";
+/* eslint-disable no-undef */
+import { Request, Response, NextFunction } from "express";
+jest.mock("../models/user.model", () => ({
+  findOne: jest.fn(),
+  findAll: jest.fn(),
+  findByPk: jest.fn(),
+  create: jest.fn(),
+  update: jest.fn(),
+  destroy: jest.fn(),
+}));
+import UserController from "../controllers/users.controller";
+import { UserService } from "../service";
 
-jest.mock("../service/user.service");
+import { QueryError } from "../utils/error.handler";
+import CONSTANTS from "../constants/constant";
 
-describe("User Controller", () => {
-  let token: string;
+jest.mock("../service");
 
-  beforeAll(() => {
-    token = "valid-jwt-token"; // Replace with a real token if needed
+describe("UserController", () => {
+  let req: Request;
+  let res: Response;
+  let next: NextFunction;
+
+  beforeEach(() => {
+    req = {
+      params: {},
+      body: {},
+    };
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    next = jest.fn();
   });
 
-  test("should get list of users", async () => {
-    (UserService.getUserListByAdmin as jest.Mock).mockResolvedValue([
-      { id: 1, email: "user1@example.com", role: "user" },
+  it("should get user list successfully", async () => {
+   (UserService.getUserListByAdmin as jest.MockedFunction<typeof UserService.getUserListByAdmin>).mockResolvedValue([
+      { email: "user1@example.com",password: },
     ]);
-
-    const res = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${token}`);
-
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.data.length).toBeGreaterThan(0);
+    await UserController.getUserList(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(CONSTANTS.RESPONSE_CODES.SUCCESS);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: true,
+        data: [{ id: 1, email: "user1@example.com" }],
+      })
+    );
   });
 
-  test("should return user by ID", async () => {
-    (UserService.getUserById as jest.Mock).mockResolvedValue({
+  it("should handle getUserList error", async () => {
+    UserService.getUserListByAdmin.mockRejectedValue(
+      new Error("Database error")
+    );
+    await UserController.getUserList(req, res, next);
+    expect(next).toHaveBeenCalledWith(expect.any(QueryError));
+  });
+
+  it("should get user by ID successfully", async () => {
+    req.params.id = 1;
+    UserService.getUserById.mockResolvedValue({
       id: 1,
       email: "user1@example.com",
-      role: "user",
     });
-
-    const res = await request(app)
-      .get("/users/1")
-      .set("Authorization", `Bearer ${token}`);
-
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.data.email).toBe("user1@example.com");
+    await UserController.getUserById(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(CONSTANTS.RESPONSE_CODES.SUCCESS);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: true,
+        data: { id: 1, email: "user1@example.com" },
+      })
+    );
   });
 
-  test("should create a new user", async () => {
-    (UserService.createUser as jest.Mock).mockResolvedValue({
-      id: 2,
-      email: "newuser@example.com",
-      role: "user",
-    });
-
-    const res = await request(app)
-      .post("/create/user")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        email: "newuser@example.com",
-        password: "Password@123",
-        role: "user",
-      });
-
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.data.email).toBe("newuser@example.com");
+  it("should handle getUserById error", async () => {
+    req.params.id = 1;
+    UserService.getUserById.mockRejectedValue(new Error("Database error"));
+    await UserController.getUserById(req, res, next);
+    expect(next).toHaveBeenCalledWith(expect.any(QueryError));
   });
 
-  test("should update a user", async () => {
-    (UserService.updateUser as jest.Mock).mockResolvedValue({
-      id: 1,
-      email: "updated@example.com",
-      role: "user",
+  it("should handle updateUserById error", async () => {
+    req.params.id = 1;
+    UserService.updateUser.mockRejectedValue(new Error("Database error"));
+    await UserController.updateUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(expect.any(QueryError));
+  });
+  it("should handle deleteUser", async () => {
+    req.params.id = 1;
+    UserService.deleteUser.mockResolvedValue({ msg: "deleted sucessfully" });
+    await UserController.deleteUser(req, res, next);
+    expect.objectContaining({
+      data: { msg: "deleted sucessfully" },
     });
-
-    const res = await request(app)
-      .put("/users/1")
-      .set("Authorization", `Bearer ${token}`)
-      .send({ email: "updated@example.com", password: "Password@123" });
-
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.data.email).toBe("updated@example.com");
+  });
+  it("should handle deleteUserById error", async () => {
+    req.params.id = 1;
+    UserService.deleteUser.mockRejectedValue(new Error("Database error"));
+    await UserController.deleteUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(expect.any(QueryError));
   });
 
-  test("should delete a user", async () => {
-    (UserService.deleteUser as jest.Mock).mockResolvedValue();
+  it("should update a user successfully", async () => {
+    const userId = 1;
+    const updatedData = { email: "updated@email.com" };
+    const mockUpdatedUser = {
+      id: userId,
 
-    const res = await request(app)
-      .delete("/users/1")
-      .set("Authorization", `Bearer ${token}`);
+      email: "updated@email.com",
+      // ... other user properties
+    };
 
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
+    UserService.updateUser.mockResolvedValueOnce(mockUpdatedUser);
+
+    const req = { params: { id: userId }, body: updatedData };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+
+    await UserController.updateUser(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: true,
+        data: mockUpdatedUser,
+      })
+    );
+  });
+
+  it("should delete a user successfully", async () => {
+    const userId = 1;
+    const mockUsers = [
+      // ... array of user objects
+    ];
+
+    UserService.deleteUser.mockResolvedValueOnce(undefined);
+    UserService.getUserListByAdmin.mockResolvedValueOnce(mockUsers);
+
+    const req = { params: { id: userId } };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+
+    await UserController.deleteUser(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: true,
+        data: mockUsers,
+      })
+    );
   });
 });

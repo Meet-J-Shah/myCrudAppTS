@@ -10,7 +10,7 @@
     "test": {
       "username": "root",
       "password": "",
-      "database": "test_example",
+      "database": "test_ts_crud",
       "host": "localhost",
       "dialect": "mysql"
     }
