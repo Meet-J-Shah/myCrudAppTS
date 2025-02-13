@@ -25,8 +25,8 @@ describe("Auth Routes", () => {
   describe("POST /auth/login", () => {
     it("should return 200 and login successfully", async () => {
       const response = await request(app).post("/auth/login").send({
-        email: "John23@gmail.com",
-        password: "Doe@1234",
+        email: "shahmeet123@gmail.com",
+        password: "Meet@1234",
       });
 
       expect(response.status).toBe(200);
@@ -44,8 +44,9 @@ describe("Auth Routes", () => {
 
   describe("POST /auth/register", () => {
     it("should return 201 and register successfully", async () => {
+      const uniqueEmail: string = `test${Math.floor(Math.random() * 100000)}@example.com`;
       const response = await request(app).post("/auth/register").send({
-        email: "newuser2@example.com",
+        email: uniqueEmail,
         password: "Pass@123",
         role: "user",
       });

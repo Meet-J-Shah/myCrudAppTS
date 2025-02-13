@@ -4,7 +4,7 @@ import { App } from "../app"; // Main app instance
 import * as db from "../models"; // Database connection
 
 const authToken: string =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksInJvbGUiOiJhZG1pbiIsImlhdCI6MTczOTMwNDMxMH0.jlHPzSo3Z6O06QPZfRhDGCo5QPD3xJUdG5wXXVoElZw";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzM5NDIxNTQ4fQ.xAo1vb21gzwAGxGwAUmljjRYsYpjHUNqfzVfQpSCgqs";
 
 let server: any;
 let agent: SuperAgentTest;
@@ -46,7 +46,7 @@ describe("Admin Routes", () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty(
         "message",
-        "List of all users having role [user] or [admin]",
+        "List of all users having role [user] or [admin]"
       );
     });
   });
@@ -81,7 +81,7 @@ describe("Admin Routes", () => {
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty(
         "message",
-        "Email is a required field",
+        "Email is a required field"
       );
     });
   });
