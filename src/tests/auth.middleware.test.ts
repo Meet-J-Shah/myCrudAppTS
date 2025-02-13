@@ -57,7 +57,7 @@ describe("Auth Middleware", () => {
     jwt.verify.mockImplementation(
       (token: any, secret: any, cb: (arg0: Error) => void) => {
         cb(new Error("Invalid token"));
-      }
+      },
     );
     await verifyUser(req, res, next);
     expect(next).toHaveBeenCalledWith(expect.any(AuthFailureError));
@@ -69,10 +69,10 @@ describe("Auth Middleware", () => {
       (
         token: any,
         secret: any,
-        cb: (arg0: null, arg1: { id: number }) => void
+        cb: (arg0: null, arg1: { id: number }) => void,
       ) => {
         cb(null, { id: 1 });
-      }
+      },
     );
     User.findOne.mockResolvedValue(null);
     await verifyUser(req, res, next);
@@ -85,10 +85,10 @@ describe("Auth Middleware", () => {
       (
         token: any,
         secret: any,
-        cb: (arg0: null, arg1: { id: number }) => void
+        cb: (arg0: null, arg1: { id: number }) => void,
       ) => {
         cb(null, { id: 1 });
-      }
+      },
     );
     User.findOne.mockResolvedValue({ id: 1, email: "test@example.com" });
     await verifyUser(req, res, next);
@@ -110,3 +110,58 @@ describe("Auth Middleware", () => {
     expect(next).toHaveBeenCalledTimes(1);
   });
 });
+
+/*import { verifyUser, verifyAdmin } from "../middleware/authMiddleware";
+import { Response, NextFunction } from "express";
+import { MyUserRequest } from "../interface";
+import jwt from "jsonwebtoken";
+
+jest.mock("jsonwebtoken");
+
+describe("Auth Middleware", () => {
+  let req: Partial<MyUserRequest>;
+  let res: Partial<Response>;
+  let next: NextFunction;
+
+  beforeEach(() => {
+    req = { headers: {} };
+    res = {};
+    next = jest.fn();
+  });
+
+  test("should fail if no token is provided", async () => {
+    await verifyUser(req as MyUserRequest, res as Response, next);
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
+  });
+
+  test("should fail if token is invalid", async () => {
+    req.headers = { authorization: "Bearer invalidtoken" };
+    (jwt.verify as jest.Mock).mockImplementation(() => {
+      throw new Error("Invalid token");
+    });
+
+    await verifyUser(req as MyUserRequest, res as Response, next);
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
+  });
+
+  test("should call next if user is authenticated", async () => {
+    req.headers = { authorization: "Bearer validtoken" };
+    (jwt.verify as jest.Mock).mockImplementation(() => ({ id: 1 }));
+
+    await verifyUser(req as MyUserRequest, res as Response, next);
+    expect(next).toHaveBeenCalled();
+  });
+
+  test("should call next if user is admin", async () => {
+    req.user = { role: "admin" } as any;
+    await verifyAdmin(req as MyUserRequest, res as Response, next);
+    expect(next).toHaveBeenCalled();
+  });
+
+  test("should fail if user is not an admin", async () => {
+    req.user = { role: "user" } as any;
+    await verifyAdmin(req as MyUserRequest, res as Response, next);
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
+  });
+});
+*/

@@ -52,10 +52,10 @@ describe("UserService Tests", () => {
   });
   it("should handle getUserList error", async () => {
     (User.findAll as jest.Mock).mockRejectedValue(
-      new Error("Error fetching users")
+      new Error("Error fetching users"),
     );
     await expect(UserService.getUserListByAdmin()).rejects.toThrow(
-      "Error fetching users"
+      "Error fetching users",
     );
   });
 
@@ -217,3 +217,41 @@ describe("UserService Tests", () => {
     });
   });
 });
+
+/*import UserService from "../service/user.service";
+import User from "../models/user.model";
+
+jest.mock("../models/user.model");
+
+describe("User Service", () => {
+  test("should get user list", async () => {
+    (User.findAll as jest.Mock).mockResolvedValue([{ id: 1, email: "user@example.com", role: "user" }]);
+
+    const users = await UserService.getUserListByAdmin();
+    expect(users.length).toBeGreaterThan(0);
+  });
+
+  test("should create a user", async () => {
+    (User.create as jest.Mock).mockResolvedValue({ id: 2, email: "newuser@example.com" });
+
+    const user = await UserService.createUser({ email: "newuser@example.com", password: "Password@123" });
+    expect(user.email).toBe("newuser@example.com");
+  });
+
+  test("should update a user", async () => {
+    const mockUser = { update: jest.fn(), id: 1, email: "updated@example.com" };
+    (User.findByPk as jest.Mock).mockResolvedValue(mockUser);
+
+    const updatedUser = await UserService.updateUser(1, { email: "updated@example.com" });
+    expect(updatedUser.email).toBe("updated@example.com");
+  });
+
+  test("should delete a user", async () => {
+    const mockUser = { destroy: jest.fn() };
+    (User.findByPk as jest.Mock).mockResolvedValue(mockUser);
+
+    await UserService.deleteUser(1);
+    expect(mockUser.destroy).toHaveBeenCalled();
+  });
+});
+*/
