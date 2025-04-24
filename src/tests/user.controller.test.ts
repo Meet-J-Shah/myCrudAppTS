@@ -34,9 +34,11 @@ describe("UserController", () => {
   });
 
   it("should get user list successfully", async () => {
-   (UserService.getUserListByAdmin as jest.MockedFunction<typeof UserService.getUserListByAdmin>).mockResolvedValue([
-      { email: "user1@example.com",password: },
-    ]);
+    (
+      UserService.getUserListByAdmin as jest.MockedFunction<
+        typeof UserService.getUserListByAdmin
+      >
+    ).mockResolvedValue([{ email: "user1@example.com", password: "fdg" }]);
     await UserController.getUserList(req, res, next);
     expect(res.status).toHaveBeenCalledWith(CONSTANTS.RESPONSE_CODES.SUCCESS);
     expect(res.json).toHaveBeenCalledWith(

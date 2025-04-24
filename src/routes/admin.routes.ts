@@ -41,7 +41,7 @@ router.get(
 );
 /**
  * @swagger
- * /users:
+ * /create/users:
  *   post:
  *     summary: Create a new user
  *     security:

@@ -28,6 +28,7 @@
     "@types/superagent": "^8.1.9",
     "@types/supertest": "^6.0.2",
     "@types/swagger-jsdoc": "^6.0.4",
+    "@types/ws": "^8.18.1",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "celebrate": "^15.0.3",
@@ -46,10 +47,12 @@
     "pdf.js": "^0.1.0",
     "puppeteer": "^24.2.0",
     "sequelize": "^6.37.5",
+    "socket.io": "^4.8.1",
     "superagent": "^10.1.1",
     "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "ws": "^8.18.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",

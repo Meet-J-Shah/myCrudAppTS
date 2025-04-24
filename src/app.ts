@@ -9,6 +9,7 @@ import express, {
 import * as dotenv from "dotenv";
 import routes from "./routes";
 import * as db from "./models";
+import http from "http";
 //import * as db2 from './models/user.model'
 
 //import { errors } from "celebrate";
@@ -29,8 +30,9 @@ export class App {
   //   throw new Error("Method not implemented.");
   // }
   private app: Application = express();
-
+  private server: http.Server;
   constructor() {
+    this.server = http.createServer(this.app);
     this.app.use(helmet());
     // this.app.use(ExpressMongoSanitize());
     this.app.use(morgan("dev"));
@@ -68,15 +70,15 @@ export class App {
     //this.app.use(errors());
   }
   public async listen() {
-    //console.log(db);
-    // console.log(db2);
     await db.sequelize.authenticate();
-    //console.log(CONSTANTS.LOG_MESSAGES.DB_CONNECTION);
     console.log("Database connected");
     await db.sequelize.sync();
-    this.app.listen(environmentConfig.PORT, () => {
-      console.log(`Server running on ${environmentConfig.PORT}`);
+
+    return new Promise<http.Server>((resolve) => {
+      this.server.listen(environmentConfig.PORT, () => {
+        console.log(`Server running on ${environmentConfig.PORT}`);
+        resolve(this.server); // Return the HTTP server
+      });
     });
-    return this.app;
   }
 }
